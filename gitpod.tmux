@@ -136,8 +136,8 @@ main@bashbox%gitpod.tmux ()
   # window style
   ##############
   set-window-option -g window-status-bell-style bold
-  set-window-option -g window-status-activity-style dim
-  set-window-option -g window-status-format '#[fg=${WHITE}]#[bg=${DARK_GRAY}]#[fg=${RED},bold][#I]#[fg=${ORANGE_LIGHT},nobold]#[underscore]#W'
+  set-window-option -g window-status-activity-style underscore
+  set-window-option -g window-status-format '#[fg=${WHITE}]#[bg=${DARK_GRAY}]#[fg=${RED},bold][#I]#[fg=${WHITE},nobold]#W'
   set-window-option -g window-status-current-format '#[fg=${BLACK},bg=${ORNAGE},bold] #W '
 
   # status-bar style
@@ -149,7 +149,7 @@ main@bashbox%gitpod.tmux ()
   set-option -g status-right-length 100
 
   ## left panel
-  set-option -g status-left "#[bg=${WHITE_BACKGROUND},fg=${DARK_GRAY}]#{?client_prefix,#[bg=${YELLOW}],} #S "
+  set-option -g status-left "#[bg=${BLACK},fg=${WHITE}]#{?client_prefix,#[bg=${YELLOW}],} #S "
 
   ## right panel (reset it)
   set-option -g status-right ""
