@@ -32,7 +32,7 @@ function ui::theme {
   set-option -g status-interval 3
 
   ## window tab(s) position
-  set-option -g status-justify centre
+  set-option -g status-justify left
 
   ## window tab sep
   set-window-option -g window-status-separator '#[fg=${GREEN},bold]|'
