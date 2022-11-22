@@ -1,1 +1,0 @@
-declare -r tmux_option_name='gitpod-modules';
