@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-main@bashbox%tmux-gitpod () 
+main@bashbox%gitpod.tmux () 
 { 
     if test "${BASH_VERSINFO[0]}${BASH_VERSINFO[1]}" -lt 43; then
         { 
@@ -55,9 +55,9 @@ main@bashbox%tmux-gitpod ()
     ___self="$0";
     ___self_PID="$$";
     ___self_DIR="$(cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd)";
-    ___MAIN_FUNCNAME='main@bashbox%tmux-gitpod';
-    ___self_NAME="tmux-gitpod";
-    ___self_CODENAME="tmux-gitpod";
+    ___MAIN_FUNCNAME='main@bashbox%gitpod.tmux';
+    ___self_NAME="gitpod.tmu";
+    ___self_CODENAME="gitpod.tmux";
     ___self_AUTHORS=("AXON <axonasif@gmail.com>");
     ___self_VERSION="1.0";
     ___self_DEPENDENCIES=(std https://github.com/bashbox/libtmux::2863b38);
@@ -65,8 +65,9 @@ main@bashbox%tmux-gitpod ()
     ___self_BASHBOX_COMPAT="0.4.0~";
     function bashbox::build::after () 
     { 
-        cp "$_target_workfile" "$_arg_path/$CODENAME";
-        chmod +x "$_arg_path/$CODENAME"
+        declare target_path="$_arg_path/${CODENAME}";
+        cp "$_target_workfile" "$target_path";
+        chmod +x "$target_path"
     };
     function ui::meters () 
     { 
@@ -372,18 +373,22 @@ CMD
                         misc::keybinds
                     };
                 fi;
-                declare func;
-                for func in ui::meters ui::indicators;
-                do
+                if is::gitpod; then
                     { 
-                        declare -n ref="${func##*:}";
-                        if test -n "${ref:-}"; then
+                        declare func;
+                        for func in ui::meters ui::indicators;
+                        do
                             { 
-                                tmux set-option -ga status-right "#(exec $0 $func ${ref[*]})"
+                                declare -n ref="${func##*:}";
+                                if test -n "${ref:-}"; then
+                                    { 
+                                        tmux set-option -ga status-right "#(exec $0 $func ${ref[*]})"
+                                    };
+                                fi
                             };
-                        fi
+                        done
                     };
-                done
+                fi
             };
         fi
     };
@@ -391,4 +396,4 @@ CMD
     wait;
     exit
 }
-"main@bashbox%tmux-gitpod" "$@";
+"main@bashbox%gitpod.tmux" "$@";

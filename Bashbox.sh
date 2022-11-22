@@ -1,5 +1,5 @@
-NAME="tmux-gitpod"
-CODENAME="tmux-gitpod"
+NAME="gitpod.tmu"
+CODENAME="gitpod.tmux"
 AUTHORS=("AXON <axonasif@gmail.com>")
 VERSION="1.0"
 DEPENDENCIES=(
@@ -10,6 +10,7 @@ REPOSITORY=""
 BASHBOX_COMPAT="0.4.0~"
 
 bashbox::build::after() {
-	cp "$_target_workfile" "$_arg_path/$CODENAME";
-	chmod +x "$_arg_path/$CODENAME";
+  declare target_path="$_arg_path/${CODENAME}";
+	cp "$_target_workfile" "$target_path";
+	chmod +x "$target_path";
 }

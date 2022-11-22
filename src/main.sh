@@ -55,16 +55,20 @@ function main() {
       misc::keybinds;
     } fi
 
-    declare func;
+    if is::gitpod; then {
+      declare func;
 
-    for func in ui::meters ui::indicators; do {
-      declare -n ref="${func##*:}";
+      for func in ui::meters ui::indicators; do {
+        declare -n ref="${func##*:}";
 
-      if test -n "${ref:-}"; then {
-        tmux set-option -ga status-right "#(exec $0 $func ${ref[*]})";
-      } fi
+        if test -n "${ref:-}"; then {
+          tmux set-option -ga status-right "#(exec $0 $func ${ref[*]})";
+        } fi
 
-    } done
+      } done
+
+    } fi
+
   } fi
 
 }
