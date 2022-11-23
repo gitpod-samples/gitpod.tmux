@@ -1,7 +1,7 @@
 use meters;
 use theme;
 use indicators;
-# use menus;
+use menus;
 
 # Colors
 declare \

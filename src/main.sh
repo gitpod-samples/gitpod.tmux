@@ -10,7 +10,8 @@ function is::gitpod() {
 }
 
 function main() {
-  exec 2>>/tmp/tmux-gitpod
+  # exec 2>>/tmp/tmux-gitpod
+  declare self_path="$___self_DIR/${___self##*/}";
 
   # Main loop
   if test -n "${*:-}"; then {
@@ -41,8 +42,11 @@ function main() {
           "indicator:dotfiles_progress")
             indicators+=(dotfiles_progress);
             ;;
-          "misc::keybinds")
+          "misc:keybinds")
             misc::keybinds;
+            ;;
+          "menu:general")
+            ui::menus general g;
             ;;
         esac
 
@@ -53,6 +57,7 @@ function main() {
       meters+=(cpu memory disk);
       indicators+=(dotfiles_progress);
       misc::keybinds;
+      ui::menus general g;
     } fi
 
     if is::gitpod; then {
@@ -62,7 +67,7 @@ function main() {
         declare -n ref="${func##*:}";
 
         if test -n "${ref:-}"; then {
-          tmux set-option -ga status-right "#(exec $0 $func ${ref[*]})";
+          tmux set-option -ga status-right "#(exec $self_path $func ${ref[*]})";
         } fi
 
       } done

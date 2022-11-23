@@ -16,5 +16,5 @@ function indicators_dotfiles_progress {
     done
   done
   current_status="$(tmux display -p '#{status-right}')";
-  tmux set -g status-right "$(printf '%s\n' "$current_status" | sed "s|#(exec $0 ${FUNCNAME[1]} ${*})||g")";
+  tmux set -g status-right "$(printf '%s\n' "$current_status" | sed "s|#(exec $self_path ${FUNCNAME[1]} ${*})||g")";
 }
