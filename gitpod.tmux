@@ -110,7 +110,7 @@ main@bashbox%gitpod.tmux ()
     function meters::cpu () 
     { 
         cpu_perc="$(( (cpu_used * 100) / cpu_max ))";
-        print_buffer+=("#[bg=${RED},fg=#282a36,bold] CPU: ${cpu_perc}%")
+        print_buffer+=("#[bg=${RED},fg=${WHITE},bold] CPU: ${cpu_perc}%")
     };
     function meters::memory () 
     { 

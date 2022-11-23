@@ -51,7 +51,7 @@ function meters::cpu {
   cpu_perc="$(( (cpu_used * 100) / cpu_max ))";
 
   # Print out
-  print_buffer+=("#[bg=${RED},fg=#282a36,bold] CPU: ${cpu_perc}%");
+  print_buffer+=("#[bg=${RED},fg=${WHITE},bold] CPU: ${cpu_perc}%");
 
 }
 
