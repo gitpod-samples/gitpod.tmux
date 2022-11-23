@@ -1,4 +1,4 @@
-# gitpod.tmux
+<p align="center"><img src="https://user-images.githubusercontent.com/39482679/203600977-327824cb-26a9-4802-821d-004363922f5b.png" alt="gitpod.tmux"></p>
 
 Tmux plugin for Gitpod. Provides theme, resource meters, indicators, keybindings and menus.
 
@@ -20,6 +20,8 @@ Hit `prefix + I` to fetch the plugin and source it. You should now be able to
 use the plugin.
 
 ### Without TPM (Tmux Plugin Manager)
+
+This plugin is built with [bashbox](https://github.com/bashbox/bashbox), so we get a self-contained compiled single script.
 
 Run the following command(s) in your terminal.
 
@@ -56,3 +58,14 @@ set -g @gitpod-modules "meter:cpu ui:theme"
 
 As you can see, the modules can be specified this way, separated by space.
 
+## menu:general
+
+To open up the functions menu, press **prefix** + **g**. (e.g. `ctrl+b g`)
+
+## misc:keybindings
+
+This modules basically sets **Alt**(or Option on Mac) + **num** keybinds for switching tmux windows easily. You can disable it if you like.
+
+# Development and contributing
+
+[![Hack in Gitpod!](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#github.com/axonasif/gitpod.tmux)
