@@ -1,4 +1,4 @@
-NAME="gitpod.tmu"
+NAME="gitpod.tmux"
 CODENAME="gitpod.tmux"
 AUTHORS=("AXON <axonasif@gmail.com>")
 VERSION="1.0"

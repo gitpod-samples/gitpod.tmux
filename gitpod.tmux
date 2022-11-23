@@ -3,7 +3,7 @@ main@bashbox%gitpod.tmux ()
 { 
     if test "${BASH_VERSINFO[0]}${BASH_VERSINFO[1]}" -lt 43; then
         { 
-            printf 'error: %s\n' 'At least bash 4.3 is required to run this, please upgrade bash or use the correct interpreter' 1>&2;
+            printf '[!!!] \033[1;31m%s\033[0m[%s]: %s\n' ERROR 1 "At least bash 4.3 is required to run this." "Please upgrade bash or use the correct interpreter." "If you're on MacOS, you can install latest bash using brew or nix." 1>&2;
             exit 1
         };
     fi;
@@ -21,20 +21,24 @@ main@bashbox%gitpod.tmux ()
         local _retcode="${2:-$?}";
         local _exception_line="$1";
         local _source="${BB_ERR_SOURCE:-"${BASH_SOURCE[-1]}"}";
+        function ___errmsg () 
+        { 
+            printf '[!!!] \033[1;31m%s\033[0m[%s]: %s\n' ERROR "$_retcode" "$@" 1>&2
+        };
         if [[ ! "$_exception_line" == \(*\) ]]; then
             { 
-                printf '[!!!] \033[1;31m%s\033[0m[%s]: %s\n' error "$_retcode" "${_source##*/}[${BASH_LINENO[0]}]: ${BB_ERR_MSG:-"$_exception_line"}" 1>&2;
+                ___errmsg "${_source##*/}[${BASH_LINENO[0]}]: ${BB_ERR_MSG:-"$_exception_line"}";
                 if test -v BB_ERR_MSG; then
                     { 
-                        echo -e "STACK TRACE: (TOKEN: $_exception_line)" 1>&2;
+                        printf "STACK TRACE: (TOKEN: %s)\n" "$_exception_line" 1>&2;
                         local -i _frame=0;
-                        local _treestack='|--';
+                        local _treestack='|-';
                         local _line _caller _source;
                         while read -r _line _caller _source < <(caller "$_frame"); do
                             { 
                                 printf '%s >> %s\n' "$_treestack ${_caller}" "${_source##*/}:${_line}" 1>&2;
                                 _frame+=1;
-                                _treestack+='--'
+                                _treestack+='-'
                             };
                         done
                     };
@@ -42,12 +46,12 @@ main@bashbox%gitpod.tmux ()
             };
         else
             { 
-                printf '[!!!] \033[1;31m%s\033[0m[%s]: %s\n' error "$_retcode" "${_source##*/}[${BASH_LINENO[0]}]: SUBSHELL EXITED WITH NON-ZERO STATUS" 1>&2
+                ___errmsg "${_source##*/}[${BASH_LINENO[0]}]: SUBSHELL EXITED WITH NON-ZERO STATUS"
             };
         fi;
         return "$_retcode"
     };
-    \command unalias -a || exit;
+    \command unalias -a || true;
     set -eEuT -o pipefail;
     shopt -sq inherit_errexit expand_aliases nullglob;
     trap 'exit' USR1;
@@ -56,7 +60,7 @@ main@bashbox%gitpod.tmux ()
     ___self_PID="$$";
     ___self_DIR="$(cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd)";
     ___MAIN_FUNCNAME='main@bashbox%gitpod.tmux';
-    ___self_NAME="gitpod.tmu";
+    ___self_NAME="gitpod.tmux";
     ___self_CODENAME="gitpod.tmux";
     ___self_AUTHORS=("AXON <axonasif@gmail.com>");
     ___self_VERSION="1.0";
@@ -74,7 +78,6 @@ main@bashbox%gitpod.tmux ()
         ui::status-bar_common;
         declare func_stack;
         declare -a input_meters=("$@");
-        declare tmp_dir && tmp_dir="$(get_temp::dir)";
         if [[ "${*}" =~ cpu|memory ]]; then
             { 
                 ui::pushfn_to_stack_str func_stack meters::cpu_mem_common;
@@ -300,42 +303,6 @@ CMD
             rm "$fifo"
         };
         IFS='' read ${1:+-t "$1"} -u $_snore_fd || :
-    };
-    function get_temp::file () 
-    { 
-        if test -w /tmp; then
-            { 
-                printf '/tmp/%s\n' ".$$_$((RANDOM * RANDOM))"
-            };
-        else
-            if res="$(mktemp -u)"; then
-                { 
-                    printf '%s\n' "$res" && unset res
-                };
-            else
-                { 
-                    return 1
-                };
-            fi;
-        fi
-    };
-    function get_temp::dir () 
-    { 
-        if test -w /tmp; then
-            { 
-                printf '%s\n' '/tmp'
-            };
-        else
-            if res="$(mktemp -u)"; then
-                { 
-                    printf '%s\n' "${res%/*}" && unset res
-                };
-            else
-                { 
-                    return 1
-                };
-            fi;
-        fi
     };
     function is::gitpod () 
     { 

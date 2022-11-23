@@ -2,7 +2,6 @@ use ui;
 use misc;
 use libtmux::common;
 use std::native::sleep;
-use std::process::get_temp;
 
 function is::gitpod() {
       # Check for existent of this gitpod-specific file and the ENV var.

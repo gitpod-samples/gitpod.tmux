@@ -5,7 +5,6 @@ function ui::meters() {
   # shellcheck disable=SC2034
   declare func_stack;
   declare -a input_meters=("$@");
-  declare tmp_dir && tmp_dir="$(get_temp::dir)";
 
   if [[ "${*}" =~ cpu|memory ]]; then {
     ui::pushfn_to_stack_str func_stack meters::cpu_mem_common;
