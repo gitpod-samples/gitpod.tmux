@@ -30,7 +30,7 @@ function ui::meters() {
   while true; do {
     print_buffer=();
     loop;
-    printf '%s\n' "${print_buffer[*]}";
+    printf '%s \n' "${print_buffer[*]}";
     ((i=i+1));
     sleep 3;
   } done
@@ -51,7 +51,7 @@ function meters::cpu {
   cpu_perc="$(( (cpu_used * 100) / cpu_max ))";
 
   # Print out
-  print_buffer+=("#[bg=blue,fg=#282a36,bold] CPU: ${cpu_perc}% ");
+  print_buffer+=("#[bg=${RED},fg=#282a36,bold] CPU: ${cpu_perc}%");
 
 }
 
@@ -61,7 +61,7 @@ function meters::memory {
   read -r hmem_used hmem_max < <(numfmt -z --to=iec --format="%8.2f" "$mem_used" "$mem_max") || true;
 
   # Print out
-  print_buffer+=("#[bg=#8be9fd,fg=#282a36,bold] MEM: ${hmem_used%?}/${hmem_max} ");
+  print_buffer+=("#[bg=#8be9fd,fg=#282a36,bold] MEM: ${hmem_used%?}/${hmem_max}");
 
 }
 
@@ -73,7 +73,7 @@ function meters::disk {
   fi
 
   # Print out
-  print_buffer+=("#[bg=green,fg=#282a36,bold] DISK: ${dused}/${dsize} ");
+  print_buffer+=("#[bg=green,fg=#282a36,bold] DISK: ${dused}/${dsize}");
 
 }
 

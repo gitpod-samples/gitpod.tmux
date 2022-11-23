@@ -96,7 +96,7 @@ main@bashbox%gitpod.tmux ()
             { 
                 print_buffer=();
                 loop;
-                printf '%s\n' "${print_buffer[*]}";
+                printf '%s \n' "${print_buffer[*]}";
                 ((i=i+1));
                 sleep 3
             };
@@ -110,19 +110,19 @@ main@bashbox%gitpod.tmux ()
     function meters::cpu () 
     { 
         cpu_perc="$(( (cpu_used * 100) / cpu_max ))";
-        print_buffer+=("#[bg=blue,fg=#282a36,bold] CPU: ${cpu_perc}% ")
+        print_buffer+=("#[bg=${RED},fg=#282a36,bold] CPU: ${cpu_perc}%")
     };
     function meters::memory () 
     { 
         read -r hmem_used hmem_max < <(numfmt -z --to=iec --format="%8.2f" "$mem_used" "$mem_max") || true;
-        print_buffer+=("#[bg=#8be9fd,fg=#282a36,bold] MEM: ${hmem_used%?}/${hmem_max} ")
+        print_buffer+=("#[bg=#8be9fd,fg=#282a36,bold] MEM: ${hmem_used%?}/${hmem_max}")
     };
     function meters::disk () 
     { 
         if [ "${i:0-1}" == 1 ]; then
             read -r dsize dused < <(df -h --output=size,used /workspace | tail -n1) || true;
         fi;
-        print_buffer+=("#[bg=green,fg=#282a36,bold] DISK: ${dused}/${dsize} ")
+        print_buffer+=("#[bg=green,fg=#282a36,bold] DISK: ${dused}/${dsize}")
     };
     function ui::theme () 
     { 
@@ -198,7 +198,7 @@ CMD
         current_status="$(tmux display -p '#{status-right}')";
         tmux set -g status-right "$(printf '%s\n' "$current_status" | sed "s|#(exec $0 ${FUNCNAME[1]} ${*})||g")"
     };
-    declare WHITE='white' WHITE_BACKGROUND='#ece7e5' ORNAGE='#ffae33' DARK_GRAY='#282a36' ORANGE_LIGHT="#ffb45b" DARK_BLUE='#12100C' BLACK='#12100c' LIGHT_GRAY='#565451' RED='red' YELLOW='yellow' GREEN='green' DARK_PURPLE='purple';
+    declare WHITE='white' WHITE_BACKGROUND='#ece7e5' ORNAGE='#ffae33' DARK_GRAY='#282a36' ORANGE_LIGHT="#ffb45b" DARK_BLUE='#12100c' BLACK='#12100c' LIGHT_GRAY='#565451' RED='red' YELLOW='yellow' GREEN='green' DARK_PURPLE='purple';
     function ui::loop_constructor () 
     { 
         declare namespace="$1";

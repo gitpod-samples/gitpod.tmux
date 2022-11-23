@@ -10,7 +10,7 @@ declare \
   ORNAGE='#ffae33' \
   DARK_GRAY='#282a36' \
   ORANGE_LIGHT="#ffb45b" \
-  DARK_BLUE='#12100C' \
+  DARK_BLUE='#12100c' \
   BLACK='#12100c' \
   LIGHT_GRAY='#565451' \
   RED='red' \
