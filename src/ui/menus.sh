@@ -28,7 +28,7 @@ function menus::general {
         "-#[nodim, fg=green]Workspace URL: #[fg=white]${workspace_url}" "" "" \
         "-#[nodim, fg=green]Count of ports: #[fg=white]${open_ports_count}" "" "" \
         "" \
-        "Stop workspace"   s "run -b 'gp stop'" \
+        "Stop workspace"   s "run -b 'tmux detach; gp stop'" \
         "Manage ports"     p "display-popup -E -w '70%' 'gp ports list | tail -n +3 | fzf'" \
         "Take a snapshot"  r "display-popup -E 'gp snapshot | fzf'" \
         "" \
