@@ -9,7 +9,8 @@ function is::gitpod() {
 }
 
 function main() {
-  # exec 2>>/tmp/tmux-gitpod
+
+  # set -x && exec 2>/tmp/tmux-gitpod
   declare self_path="$___self_DIR/${___self##*/}";
 
   # Main loop
@@ -47,6 +48,9 @@ function main() {
           "menu:general")
             ui::menus general g;
             ;;
+          "misc:gitpod_tasks")
+            tmux run-shell -b "exec $self_path misc::gitpod_tasks";
+            ;;
         esac
 
       } done
@@ -56,6 +60,8 @@ function main() {
       meters+=(cpu memory disk);
       indicators+=(dotfiles_progress);
       misc::keybinds;
+      tmux run-shell -b "exec $self_path misc::gitpod_tasks";
+      # misc::gitpod_tasks;
       ui::menus general g;
     } fi
 

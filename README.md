@@ -1,12 +1,12 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/39482679/203600977-327824cb-26a9-4802-821d-004363922f5b.png" alt="gitpod.tmux"></p>
 
-Tmux plugin for Gitpod. Provides theme, resource meters, indicators, keybindings and menus.
+Tmux plugin for Gitpod, with `.gitpod.yml` tasks integration. Provides theme, resource meters, indicators, keybindings and menus.
 
 Can be used locally as well for the `ui:theme` module, other [modules](#modules) will be disabled outside of Gitpod.
 
 # Installation
 
-You do not need to install it if you are using [dotsh](https://github.com/axonasif/dotsh). However, if you want to use the theme locally, you may put it on your `.tmux.conf` for installing with TPM.
+You do not need to install it if you are using [dotsh](https://github.com/axonasif/dotsh). But you can always install it in your own way in case you don't want to use `dotsh`.
 
 ### With [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm) (recommended)
 
@@ -28,7 +28,7 @@ Run the following command(s) in your terminal.
 ```bash
 curl -L "https://raw.githubusercontent.com/axonasif/gitpod.tmux/main/gitpod.tmux" --output ~/gitpod.tmux
 chmod +x ~/gitpod.tmux
-! grep -q 'gitpod.tmux' ~/.tmux.conf 2>/dev/null && echo "run-shell ~/gitpod.tmux" >> ~/.tmux.conf
+! grep -q 'gitpod.tmux' ~/.tmux.conf 2>/dev/null && echo "run-shell -b 'exec ~/gitpod.tmux'" >> ~/.tmux.conf
 ```
 
 Then you can reload TMUX environment to use it without restarting the session:
@@ -45,8 +45,9 @@ The following modules are available:
 - `meter:disk`
 - `meter:memory`
 - `misc:keybindings`
-- `ui:theme`
+- `misc::gitpod_tasks`
 - `menu:general`
+- `ui:theme`
 
 By default, all are enabled unless you explicitly specify which ones you want.
 
@@ -65,6 +66,10 @@ To open up the functions menu, press **prefix** + **g**. (e.g. `ctrl+b g`)
 ## misc:keybindings
 
 This modules basically sets **Alt**(or Option on Mac) + **num** keybinds for switching tmux windows easily. You can disable it if you like.
+
+## misc::gitpod_tasks
+
+For auto creating tmux windows that attach to `.gitpod.yml` task terminals.
 
 # Development and contributing
 

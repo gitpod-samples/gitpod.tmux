@@ -5,6 +5,11 @@ function ui::menus() {
 }
 
 function menus::general {
+
+  if !is::gitpod; then {
+    return 0;
+  } fi
+
   declare \
     workspace_url \
     workspace_class_display_name \
