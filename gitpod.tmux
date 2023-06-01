@@ -255,8 +255,8 @@ CMD
         for symbol in port_status port_name;
         do
             { 
-                declare -n ref="$symbol";
-                ref="${ref% }" && ref="${ref# }"
+                ref="${ref#"${ref%%[![:space:]]*}"}";
+                ref="${ref%"${ref##*[![:space:]]}"}"
             };
         done;
         run+=(tmux display-menu -T "#[align=centre fg=orange]Select action" -x C -y C "" "-#[nodim, fg=blue]What do you want to do with port ${port_num}?" "" "" "" "Open in browser" o "run -b 'gp preview ${port_url} --external'");
@@ -352,7 +352,8 @@ CMD
                                 do
                                     { 
                                         declare -n ref="$symbol";
-                                        ref="${ref% }" && ref="${ref# }"
+                                        ref="${ref#"${ref%%[![:space:]]*}"}";
+                                        ref="${ref%"${ref##*[![:space:]]}"}"
                                     };
                                 done;
                                 if test "$task_state" == "running"; then

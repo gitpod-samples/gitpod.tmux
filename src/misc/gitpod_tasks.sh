@@ -27,7 +27,8 @@ function misc::gitpod_tasks() {
                 if [[ "$term_id" =~ [0-9]+ ]]; then {
                     for symbol in term_id term_name task_state; do {
                         declare -n ref="$symbol";
-                        ref="${ref% }" && ref="${ref# }";
+                        ref="${ref#"${ref%%[![:space:]]*}"}"
+                        ref="${ref%"${ref##*[![:space:]]}"}"   
                     } done
                     if test "$task_state" == "running"; then {
                         tmux new-window -d -n "${term_name}" -- gp tasks attach "${term_id}"
