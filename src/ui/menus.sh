@@ -37,7 +37,7 @@ function menus::general {
         "-#[nodim, fg=green]Inactivity timeout: #[fg=white]${workspace_inactivity_timeout}" "" "" \
         "-#[nodim, fg=green]Count of ports: #[fg=white]${open_ports_count}" "" "" \
         "" \
-        "Validate .gitpod.yml" v "neww -n 'validateg' 'gp validate'" \
+        "Validate .gitpod.yml" v "neww -n 'validate' 'if ! test -e $GITPOD_REPO_ROOT/.gitpod.yml; then gp init -i; fi; gp validate'" \
         "Stop workspace"   s "run -b 'tmux detach; gp stop'" \
         "Manage ports"     p "run -b '$self_path submenu::gp_ports'" \
         "Extend timeout"   t "run -b 'tmux display-message -d 2000 \"\$(gp timeout extend)\"" \

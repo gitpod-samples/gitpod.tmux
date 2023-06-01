@@ -220,7 +220,7 @@ CMD
         workspace_inactivity_timeout="$(gp timeout show)";
         open_ports_data="$(gp ports list)" || true;
         open_ports_count="$(tail -n +3 <<<"$open_ports_data" | wc -l)" || true;
-        tmux display-menu -T "#[align=centre fg=orange]Gitpod" -x R -y P "" "-#[nodim, fg=green]Workspace class: #[fg=white]${workspace_class_description} (${workspace_class_display_name})" "" "" "-#[nodim, fg=green]Workspace URL: #[fg=white]${workspace_url}" "" "" "-#[nodim, fg=green]Inactivity timeout: #[fg=white]${workspace_inactivity_timeout}" "" "" "-#[nodim, fg=green]Count of ports: #[fg=white]${open_ports_count}" "" "" "" "Validate .gitpod.yml" v "neww -n 'validateg' 'gp validate'" "Stop workspace" s "run -b 'tmux detach; gp stop'" "Manage ports" p "run -b '$self_path submenu::gp_ports'" "Extend timeout" t "run -b 'tmux display-message -d 2000 \"\$(gp timeout extend)\"" "Take a snapshot" r "display-popup -E 'gp snapshot; echo; echo Press Enter\return to dismiss ...; read c'" "" "Quit menu" q ""
+        tmux display-menu -T "#[align=centre fg=orange]Gitpod" -x R -y P "" "-#[nodim, fg=green]Workspace class: #[fg=white]${workspace_class_description} (${workspace_class_display_name})" "" "" "-#[nodim, fg=green]Workspace URL: #[fg=white]${workspace_url}" "" "" "-#[nodim, fg=green]Inactivity timeout: #[fg=white]${workspace_inactivity_timeout}" "" "" "-#[nodim, fg=green]Count of ports: #[fg=white]${open_ports_count}" "" "" "" "Validate .gitpod.yml" v "neww -n 'validate' 'if ! test -e $GITPOD_REPO_ROOT/.gitpod.yml; then gp init -i; fi; gp validate'" "Stop workspace" s "run -b 'tmux detach; gp stop'" "Manage ports" p "run -b '$self_path submenu::gp_ports'" "Extend timeout" t "run -b 'tmux display-message -d 2000 \"\$(gp timeout extend)\"" "Take a snapshot" r "display-popup -E 'gp snapshot; echo; echo Press Enter\return to dismiss ...; read c'" "" "Quit menu" q ""
     };
     function submenu::gp_ports () 
     { 
@@ -327,7 +327,7 @@ CMD
                     sleep 1;
                 done;
                 tmux rename-session "gitpod";
-                tmux new-window -d 'true' || :;
+                tmux new-window 'true' || :;
                 local first_window editor;
                 local window_name="editor";
                 if editor="$(command -v nvim || command -v  vim || command -v nano)" && editor="${editor##*/}"; then

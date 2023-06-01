@@ -8,7 +8,7 @@ function misc::gitpod_tasks() {
             tmux rename-session "gitpod";
 
             # Refresh window/panel index
-            tmux new-window -d 'true' || :
+            tmux new-window 'true' || :
 
             # Open an available editor
             local first_window editor
