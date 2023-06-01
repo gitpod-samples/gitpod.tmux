@@ -77,7 +77,8 @@ The following modules are available:
 - `meter:disk`
 - `meter:memory`
 - `misc:keybindings`
-- `misc::gitpod_tasks`
+- `misc:gitpod_tasks`
+- `misc:ports_notify`
 - `menu:general`
 - `ui:theme`
 
@@ -99,9 +100,13 @@ To open up the functions menu, press **prefix** + **g**. (e.g. `ctrl+b g`)
 
 This modules basically sets **Alt**(or Option on Mac) + **num** keybinds for switching tmux windows easily. You can disable it if you like.
 
-## misc::gitpod_tasks
+## misc:gitpod_tasks
 
 For auto creating tmux windows that attach to `.gitpod.yml` task terminals.
+
+## misc:ports_notify
+
+Display message in tmux when a new port is opened.
 
 # Development and contributing
 

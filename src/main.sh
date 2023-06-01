@@ -51,6 +51,9 @@ function main() {
           "misc:gitpod_tasks")
             tmux run-shell -b "exec $self_path misc::gitpod_tasks";
             ;;
+          "misc:ports_notify")
+            tmux run-shell -b "exec $self_path misc::ports_notify";
+            ;;
         esac
 
       } done
@@ -61,6 +64,7 @@ function main() {
       indicators+=(dotfiles_progress);
       misc::keybinds;
       tmux run-shell -b "exec $self_path misc::gitpod_tasks";
+      tmux run-shell -b "exec $self_path misc::ports_notify";
       # misc::gitpod_tasks;
       ui::menus general g;
     } fi

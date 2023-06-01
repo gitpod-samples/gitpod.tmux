@@ -37,10 +37,94 @@ function menus::general {
         "-#[nodim, fg=green]Inactivity timeout: #[fg=white]${workspace_inactivity_timeout}" "" "" \
         "-#[nodim, fg=green]Count of ports: #[fg=white]${open_ports_count}" "" "" \
         "" \
+        "Validate .gitpod.yml" v "neww -n 'validateg' 'gp validate'" \
         "Stop workspace"   s "run -b 'tmux detach; gp stop'" \
-        "Manage ports"     p "display-popup -E -w '70%' 'gp ports list | tail -n +3 | fzf'" \
-        "Extend timeout"   t "display-popup -E -w '30%' 'gp timeout extend; read'" \
-        "Take a snapshot"  r "display-popup -E 'gp snapshot | fzf'" \
+        "Manage ports"     p "run -b '$self_path submenu::gp_ports'" \
+        "Extend timeout"   t "run -b 'tmux display-message -d 2000 \"\$(gp timeout extend)\"" \
+        "Take a snapshot"  r "display-popup -E 'gp snapshot; echo; echo Press Enter\return to dismiss ...; read c'" \
         "" \
         "Quit menu"       q "" 
 }
+
+function submenu::gp_ports() {
+  lines=()
+  i=1
+  while read -r line; do
+      if ! [[ "$line" == "|-"* ]]; then {
+          IFS='|' read -r _ port_num port_status port_protocol port_url port_name _ <<<"$line"
+          if ! [[ "$port_status" =~ "not served" ]]; then {
+              lines+=("$line" "${i}" "run -b '$self_path submenu::manage_gp_ports ${port_num} \"${port_status}\" ${port_protocol} ${port_url} \"${port_name}\"'")
+              if [[ "$port_num" =~ [0-9]+ ]]; then i=$((i+1)); fi
+          } fi
+      } fi
+  done < <(gp ports list --no-color)
+
+  run+=(
+      tmux display-menu
+      -T "#[align=centre fg=orange]Gitpod"
+      -x C -y C
+      ""
+          "-#[nodim, fg=green]${lines[0]}" "" ""
+      ""
+          "${lines[@]:3}"
+      ""
+      "#[fg=red]Quit menu" q ""
+  )
+
+  "${run[@]}"
+
+}
+
+function submenu::manage_gp_ports() {
+  local port_num="$1"
+  local port_status="$2"
+  local port_protocol="$3"
+  local port_url="$4"
+  local port_name="$5"
+  local symbol ref run
+
+  for symbol in port_status port_name; do {
+      declare -n ref="$symbol";
+      ref="${ref% }" && ref="${ref# }";
+  } done
+
+  run+=(
+      tmux display-menu
+      -T "#[align=centre fg=orange]Select action"
+      -x C -y C
+      ""
+          "-#[nodim, fg=blue]What do you want to do with port ${port_num}?" "" ""
+      ""
+
+      "Open in browser" o "run -b 'gp preview ${port_url} --external'"
+  )
+
+  if [[ "$port_status" =~ private ]]; then {
+      run+=(
+          "Set visibility to Public" v "run -b 'gp ports visibility ${port_num}:public 1>/dev/null'"
+      )
+  } else {
+      run+=(
+          "Set visibility to Private" v "run -b 'gp ports visibility ${port_num}:private 1>/dev/null'"
+      )
+  } fi
+
+  if [[ "$port_protocol" == http ]]; then {
+      run+=(
+          "Set protocol to HTTPS" p "run -b 'gp ports protocol ${port_num}:https 1>/dev/null'"
+      )
+  } else {
+      run+=(
+          "Set protocol to HTTP" p "run -b 'gp ports protocol ${port_num}:http 1>/dev/null'"
+      )
+  } fi
+
+
+  run+=(
+      ""
+      "#[fg=red]Quit menu" q ""
+  )
+
+  "${run[@]}"
+}
+
