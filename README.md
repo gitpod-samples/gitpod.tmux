@@ -17,6 +17,10 @@ Example `install.sh` for Gitpod dotfiles:
 ```bash
 #!/usr/bin/env bash
 
+# Install latest static tmux
+sudo curl -L https://github.com/axonasif/build-static-tmux/releases/latest/download/tmux.linux-amd64.stripped -o /usr/bin/tmux
+sudo chmod +x /usr/bin/tmux
+
 # Auto start tmux on SSH or xtermjs
 cat >> "$HOME/.bashrc" <<'EOF'
 if test ! -v TMUX && (test -v SSH_CONNECTION || test "$PPID" == "$(pgrep -f '/ide/xterm/bin/node /ide/xterm/index.cjs' | head -n1)"); then {
@@ -44,6 +48,10 @@ Example `install.sh` for Gitpod dotfiles:
 
 ```bash
 #!/usr/bin/env bash
+
+# Install latest static tmux
+sudo curl -L https://github.com/axonasif/build-static-tmux/releases/latest/download/tmux.linux-amd64.stripped -o /usr/bin/tmux
+sudo chmod +x /usr/bin/tmux
 
 # Auto start tmux on SSH or xtermjs
 cat >> "$HOME/.bashrc" <<'EOF'
