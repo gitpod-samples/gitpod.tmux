@@ -8,7 +8,31 @@ Can be used locally as well for the `ui:theme` module, other [modules](#modules)
 
 You do not need to install it if you are using [dotsh](https://github.com/axonasif/dotsh). But you can always install it in your own way in case you don't want to use `dotsh`.
 
-### With [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm) (recommended)
+### Without TPM
+
+This plugin is built with [bashbox](https://github.com/bashbox/bashbox), so we get a self-contained compiled single script.
+
+Example `install.sh` for Gitpod dotfiles:
+
+```bash
+#!/usr/bin/env bash
+
+# Auto start tmux on SSH or xtermjs
+cat >> "$HOME/.bashrc" <<'EOF'
+if test ! -v TMUX && (test -v SSH_CONNECTION || test "$PPID" == "$(pgrep -f '/ide/xterm/bin/node /ide/xterm/index.cjs' | head -n1)"); then {
+  if ! tmux has-session 2>/dev/null; then {
+    tmux new-session -n "editor" -ds "gitpod"
+  } fi
+  exec tmux attach
+} fi
+EOF
+
+curl -L "https://raw.githubusercontent.com/axonasif/gitpod.tmux/main/gitpod.tmux" --output ~/gitpod.tmux
+chmod +x ~/gitpod.tmux
+! grep -q 'gitpod.tmux' ~/.tmux.conf 2>/dev/null && echo "run-shell -b 'exec ~/gitpod.tmux'" >> ~/.tmux.conf
+```
+
+### With [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm), if you're using TPM
 
 Add plugin to the list of TPM plugins in `.tmux.conf`:
 
@@ -16,24 +40,24 @@ Add plugin to the list of TPM plugins in `.tmux.conf`:
 set -g @plugin 'axonasif/gitpod.tmux'
 ```
 
-Hit `prefix + I` to fetch the plugin and source it. You should now be able to
-use the plugin.
-
-### Without TPM (Tmux Plugin Manager)
-
-This plugin is built with [bashbox](https://github.com/bashbox/bashbox), so we get a self-contained compiled single script.
-
-Run the following command(s) in your terminal.
+Example `install.sh` for Gitpod dotfiles:
 
 ```bash
-curl -L "https://raw.githubusercontent.com/axonasif/gitpod.tmux/main/gitpod.tmux" --output ~/gitpod.tmux
-chmod +x ~/gitpod.tmux
-! grep -q 'gitpod.tmux' ~/.tmux.conf 2>/dev/null && echo "run-shell -b 'exec ~/gitpod.tmux'" >> ~/.tmux.conf
-```
+#!/usr/bin/env bash
 
-Then you can reload TMUX environment to use it without restarting the session:
-```bash
-tmux source-file ~/.tmux.conf
+# Auto start tmux on SSH or xtermjs
+cat >> "$HOME/.bashrc" <<'EOF'
+if test ! -v TMUX && (test -v SSH_CONNECTION || test "$PPID" == "$(pgrep -f '/ide/xterm/bin/node /ide/xterm/index.cjs' | head -n1)"); then {
+  if ! tmux has-session 2>/dev/null; then {
+    tmux new-session -n "editor" -ds "gitpod"
+  } fi
+  exec tmux attach
+} fi
+EOF
+
+# Install TPM and non-interactively install the plugins
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+"$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh"
 ```
 
 # Modules
