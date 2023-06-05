@@ -255,6 +255,7 @@ CMD
         for symbol in port_status port_name;
         do
             { 
+                declare -n ref="$symbol";
                 ref="${ref#"${ref%%[![:space:]]*}"}";
                 ref="${ref%"${ref##*[![:space:]]}"}"
             };

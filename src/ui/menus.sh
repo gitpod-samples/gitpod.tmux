@@ -84,6 +84,7 @@ function submenu::manage_gp_ports() {
   local symbol ref run
 
   for symbol in port_status port_name; do {
+    declare -n ref="$symbol"
     ref="${ref#"${ref%%[![:space:]]*}"}"
     ref="${ref%"${ref##*[![:space:]]}"}" 
   } done
