@@ -54,6 +54,9 @@ function main() {
           "misc:ports_notify")
             tmux run-shell -b "exec $self_path misc::ports_notify";
             ;;
+          "misc:validate_gitpodyml")
+            tmux run-shell -b "exec $self_path misc::validate_gitpodyml";
+            ;;
         esac
 
       } done
@@ -65,6 +68,7 @@ function main() {
       misc::keybinds;
       tmux run-shell -b "exec $self_path misc::gitpod_tasks";
       tmux run-shell -b "exec $self_path misc::ports_notify";
+      tmux run-shell -b "exec $self_path misc::validate_gitpodyml";
       # misc::gitpod_tasks;
       ui::menus general g;
     } fi

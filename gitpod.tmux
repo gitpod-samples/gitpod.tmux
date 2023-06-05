@@ -390,6 +390,20 @@ CMD
         };
         read_ports
     };
+    function misc::validate_gitpodyml () 
+    { 
+        set -x && exec 2> $GITPOD_REPO_ROOT/log;
+        local run_prompt+=(tmux display-menu -T "#[align=centre fg=orange]Debug .gitpod.yml" -x C -y C "" "-#[nodim, fg=green]Do you want to validate the workspace configuration?" "" "" "" "Validate" v "neww -n 'validate' 'gp validate'" "" "Dismiss" q "");
+        function watch () 
+        { 
+            tail -n 0 -F "${GITPOD_REPO_ROOT}/.gitpod.yml" 2> /dev/null | while read -r line; do
+                "${run_prompt[@]}";
+                break;
+            done || true;
+            watch
+        };
+        watch
+    };
     function tmux::show-option () 
     { 
         local opt="$1";
@@ -488,6 +502,9 @@ CMD
                                     "misc:ports_notify")
                                         tmux run-shell -b "exec $self_path misc::ports_notify"
                                     ;;
+                                    "misc:validate_gitpodyml")
+                                        tmux run-shell -b "exec $self_path misc::validate_gitpodyml"
+                                    ;;
                                 esac
                             };
                         done
@@ -500,6 +517,7 @@ CMD
                         misc::keybinds;
                         tmux run-shell -b "exec $self_path misc::gitpod_tasks";
                         tmux run-shell -b "exec $self_path misc::ports_notify";
+                        tmux run-shell -b "exec $self_path misc::validate_gitpodyml";
                         ui::menus general g
                     };
                 fi;

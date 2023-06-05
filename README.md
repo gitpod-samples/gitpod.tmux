@@ -6,7 +6,7 @@ Can be used locally as well for the `ui:theme` module, other [modules](#modules)
 
 # Installation
 
-You do not need to install it if you are using [dotsh](https://github.com/axonasif/dotsh). But you can always install it in your own way in case you don't want to use `dotsh`.
+You do not need to install it if you are using [dotsh](https://github.com/axonasif/dotsh). But you can always install it in your own way in case you don't want to use `dotsh`. You can also check https://github.com/axonasif/gitpod.tmux-starter-dotfiles if you want to quickly try this plugin, or continue reading.
 
 ### Without TPM
 
@@ -79,6 +79,7 @@ The following modules are available:
 - `misc:keybindings`
 - `misc:gitpod_tasks`
 - `misc:ports_notify`
+- `misc:validate_gitpodyml`
 - `menu:general`
 - `ui:theme`
 
@@ -107,6 +108,11 @@ For auto creating tmux windows that attach to `.gitpod.yml` task terminals.
 ## misc:ports_notify
 
 Display message in tmux when a new port is opened.
+
+
+## misc:validate_gitpodyml
+
+Prompt for running `gp validate` upon `.gitpod.yml` changes.
 
 # Development and contributing
 
