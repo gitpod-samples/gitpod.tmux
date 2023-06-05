@@ -1,5 +1,4 @@
 function misc::validate_gitpodyml() {
-    set -x && exec 2>$GITPOD_REPO_ROOT/log
     local run_prompt+=(
         tmux display-menu
         -T "#[align=centre fg=orange]Debug .gitpod.yml"
