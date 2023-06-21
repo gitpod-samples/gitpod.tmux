@@ -382,7 +382,7 @@ CMD
                         { 
                             forwarded_ports+=("$port_num");
                             echo "$port_num";
-                            tmux display-message -d 5000 "Port${port_num}is open: $port_url"
+                            tmux display-message "Port${port_num}is open: $port_url"
                         };
                     fi;
                 done < <(gp ports list --no-color);
