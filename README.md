@@ -6,37 +6,20 @@ Can be used locally as well for the `ui:theme` module, other [modules](#modules)
 
 # Installation
 
-You do not need to install it if you are using [dotsh](https://github.com/axonasif/dotsh). But you can always install it in your own way in case you don't want to use `dotsh`. You can also check https://github.com/axonasif/gitpod.tmux-starter-dotfiles if you want to quickly try this plugin, or continue reading.
+You do not need to install it if you are using [dotsh](https://github.com/axonasif/dotsh). But you can always install it in your own way in case you don't want to use `dotsh`.
 
-### Without TPM
+## Quickstart
 
-This plugin is built with [bashbox](https://github.com/bashbox/bashbox), so we get a self-contained compiled single script.
+If you want to try it out as is:
 
-Example `install.sh` for Gitpod dotfiles:
+- Go to <https://gitpod.io/user/preferences> and scroll down.
+- Set <https://github.com/gitpod-samples/gitpod.tmux> as **Dotfiles - Repository URL** and click on `Save`.
 
-```bash
-#!/usr/bin/env bash
+## Custom setup
 
-# Install latest static tmux
-sudo curl -L https://github.com/axonasif/build-static-tmux/releases/latest/download/tmux.linux-amd64.stripped -o /usr/bin/tmux
-sudo chmod +x /usr/bin/tmux
+If you already have a dotfiles repository that you use on Gitpod, you can copy the contents from [install.sh](./install.sh) and append (while excluding the first shebang line) to your own [installation script](https://www.gitpod.io/docs/configure/user-settings/dotfiles#custom-installation-script).
 
-# Auto start tmux on SSH or xtermjs
-cat >> "$HOME/.bashrc" <<'EOF'
-if test ! -v TMUX && (test -v SSH_CONNECTION || test "$PPID" == "$(pgrep -f '/ide/xterm/bin/node /ide/xterm/index.cjs' | head -n1)"); then {
-  if ! tmux has-session 2>/dev/null; then {
-    tmux new-session -n "editor" -ds "gitpod"
-  } fi
-  exec tmux attach
-} fi
-EOF
-
-curl -L "https://raw.githubusercontent.com/axonasif/gitpod.tmux/main/gitpod.tmux" --output ~/gitpod.tmux
-chmod +x ~/gitpod.tmux
-! grep -q 'gitpod.tmux' ~/.tmux.conf 2>/dev/null && echo "run-shell -b 'exec ~/gitpod.tmux'" >> ~/.tmux.conf
-```
-
-### With [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm), if you're using TPM
+### (ADVANCED) With [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm), if you're using TPM
 
 Add plugin to the list of TPM plugins in `.tmux.conf`:
 
@@ -108,7 +91,6 @@ For auto creating tmux windows that attach to `.gitpod.yml` task terminals.
 ## misc:ports_notify
 
 Display message in tmux when a new port is opened.
-
 
 ## misc:validate_gitpodyml
 
