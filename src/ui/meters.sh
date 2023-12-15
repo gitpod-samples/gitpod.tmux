@@ -18,7 +18,7 @@ function ui::meters() {
       } else {
         log::error "None of jq or yq was found" 1 || exit;
       } fi
-      printf '%s\n' "jq";
+      printf '%s\n' "$_";
     )"
 
   } fi
